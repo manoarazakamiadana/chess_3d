@@ -1,17 +1,16 @@
 import { Canvas } from "@react-three/fiber";
-import Table from "./components/Table";
 import { OrbitControls } from "@react-three/drei";
-
+import Game from "./components/Game";
 
 export default function () {
     return (
         <Canvas
-            camera={{ position: [100, 100, 100] }}
+            camera={{ position: [0, 100, 0] }}
             style={{ width: "100vw", height: "100vh" }}
         >
             <OrbitControls />
             <ambientLight />
-            <Table />
+            <Game />
         </Canvas>
     )
 }

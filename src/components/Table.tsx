@@ -15,17 +15,12 @@ export default function () {
             {range(-4, 4, 1).map(function (x: number) {
                 return range(-4, 4, 1).map(function(y: number) {
                     return (
-                        <mesh position={[caseSize*x, 0, caseSize*y]}>
+                        <mesh position={[caseSize*x, -12.5, caseSize*y]} key={x*8+y}>
                             <boxGeometry args={[caseSize, caseSize/3, caseSize]} />
                             <meshLambertMaterial color={((x%2)+(y%2))%2 == 0 ? 0x00000 : 0xffffff} />
                         </mesh>
                     )
                 })
-
-                    // <mesh position={[caseSize*index, 0, 0]} key={index}>
-                    //     <boxGeometry args={[caseSize, caseSize/3, caseSize]} />
-                    //     <meshLambertMaterial color={index%2 == 0 ? 0x00000 : 0xffffff} />
-                    // </mesh>
             })}
         </group>
     )
