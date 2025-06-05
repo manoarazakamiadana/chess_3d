@@ -1,7 +1,8 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import Game from "./components/Game";
 import { caseSize } from "./constants";
+import Table from "./components/Table";
+import Pieces from "./components/Pieces";
 
 export default function () {
     return (
@@ -13,7 +14,8 @@ export default function () {
             <OrbitControls />
             <ambientLight />
             <directionalLight position={[0, caseSize*25, 0]} up={[0, 0, 0]} castShadow />
-            <Game />
+            <Table />
+            <Pieces />
         </Canvas>
     )
 }
