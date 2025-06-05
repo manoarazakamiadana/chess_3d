@@ -175,6 +175,13 @@ export function getSuggestion(piece: Piece, pieces: Piece[]) {
                 }
             }
         }
+        for (const dx of [-1, 1]) {
+            const cx = x + dx;
+            const cy = y + move;
+            if (pieces.find(p => p.position.x == cx && p.position.y == cy && p.color != piece.color)) {
+                suggestions.push({ x: cx, y: cy });
+            }
+        }
     }
     return suggestions
 }

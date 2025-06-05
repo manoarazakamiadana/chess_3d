@@ -1,7 +1,7 @@
 export interface Piece {
     color: "black" | "white",
     type: "bishop" | "king" | "knight" | "pawn" | "queen" | "rook",
-    position: Position
+    position: Position,
 }
 
 export interface Position {
