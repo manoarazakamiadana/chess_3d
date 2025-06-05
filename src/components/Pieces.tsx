@@ -4,21 +4,28 @@ import { useEffect, useMemo } from "react";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 import type { Mesh, MeshStandardMaterial } from "three";
 import { caseSize } from "../constants";
+import useTurnStore from "../stores/turn";
+import usePieceStore from "../stores/pieces";
+import useSelectedPieceStore from "../stores/selectedPiece"
 
+export default function () {
 
-export default function (props: { pieces: Piece[], selectedPieceSetter: Function, turn: string }) {
+    const pieces = usePieceStore(set => set.pieces)
+
     return <>
-        {props.pieces.map(function (piece: Piece, index: number) {
+        {pieces.map(function (piece: Piece, index: number) {
             return (
-                <PieceComponents piece={piece} selectedPieceSetter={props.selectedPieceSetter} key={index} turn={props.turn} />
+                <PieceComponents piece={piece} key={index} />
             )
         })}
     </>
 }
 
-function PieceComponents(props: { piece: Piece, selectedPieceSetter: Function, turn: string }) {
+function PieceComponents(props: { piece: Piece }) {
     const { scene } = useGLTF(`/${props.piece.type}.glb`)
     const clonedScene = useMemo(() => clone(scene), [scene])
+    const { turn } = useTurnStore()    
+    const setSelectedPiece = useSelectedPieceStore(set => set.setPieces)
 
     useEffect(() => {
         clonedScene.traverse((child) => {
@@ -35,8 +42,8 @@ function PieceComponents(props: { piece: Piece, selectedPieceSetter: Function, t
 
     return (
         <group onClick={function () {
-            if (props.turn == props.piece.color) {
-                props.selectedPieceSetter(props.piece)
+            if (turn == props.piece.color) {
+                setSelectedPiece(props.piece)
             }
         }}>
             <primitive
