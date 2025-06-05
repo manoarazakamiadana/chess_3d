@@ -6,17 +6,17 @@ import type { Mesh, MeshStandardMaterial } from "three";
 import { caseSize } from "../constants";
 
 
-export default function (props: { pieces: Piece[], selectedPieceSetter: Function }) {
+export default function (props: { pieces: Piece[], selectedPieceSetter: Function, turn: string }) {
     return <>
         {props.pieces.map(function (piece: Piece, index: number) {
             return (
-                <PieceComponents piece={piece} selectedPieceSetter={props.selectedPieceSetter} key={index} />
+                <PieceComponents piece={piece} selectedPieceSetter={props.selectedPieceSetter} key={index} turn={props.turn} />
             )
         })}
     </>
 }
 
-function PieceComponents(props: { piece: Piece, selectedPieceSetter: Function }) {
+function PieceComponents(props: { piece: Piece, selectedPieceSetter: Function, turn: string }) {
     const { scene } = useGLTF(`/${props.piece.type}.glb`)
     const clonedScene = useMemo(() => clone(scene), [scene])
 
@@ -39,7 +39,9 @@ function PieceComponents(props: { piece: Piece, selectedPieceSetter: Function })
         scale={[caseSize*40, caseSize*40, caseSize*40]}
         rotation={props.piece.color == "black" ? [0, 0, 0] : [0, Math.PI, 0]}
         onClick={function () {
-            props.selectedPieceSetter(props.piece)
+            if (props.turn == props.piece.color) {
+                props.selectedPieceSetter(props.piece)
+            }   
         }}
     />
 }
