@@ -3,7 +3,7 @@ import { caseSize } from "../constants"
 import type { Piece, Position } from "../types"
 import { getSuggestion, range } from "../utils"
 
-export default function (props: { selectedPiece: Piece | null, pieces: Piece[], setSelectedPiece: Function }) {
+export default function (props: { selectedPiece: Piece | null, pieces: Piece[], setSelectedPiece: Function, setPieces: Function }) {
     const [suggestions, setSuggestions] = useState<Position[]>([])
 
     useEffect(function () {
@@ -27,8 +27,18 @@ export default function (props: { selectedPiece: Piece | null, pieces: Piece[], 
                             if (suggestions.some(function (suggestion) {
                                 return suggestion.x == x && suggestion.y == y
                             })) {
+
+                                const killablePieces = props.pieces.find(function (p) {
+                                    return p.position.x == x && p.position.y == y
+                                })
+
+                                if (killablePieces) {
+                                    props.setPieces(props.pieces.filter(p => p != killablePieces))
+                                }
+
                                 props.selectedPiece.position.x = x
                                 props.selectedPiece.position.y = y
+
                             }
 
                             props.setSelectedPiece(null)

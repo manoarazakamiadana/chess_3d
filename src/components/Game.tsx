@@ -267,7 +267,7 @@ export default function () {
     const [selectedPiece, setSelectedPiece] = useState<Piece | null>(null)
 
     return <>
-        <Table selectedPiece={selectedPiece} pieces={pieces} setSelectedPiece={setSelectedPiece} />
+        <Table selectedPiece={selectedPiece} pieces={pieces} setSelectedPiece={setSelectedPiece} setPieces={setPieces} />
         <Pieces pieces={pieces} selectedPieceSetter={setSelectedPiece} />
     </>
 }
