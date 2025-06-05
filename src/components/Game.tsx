@@ -263,12 +263,12 @@ const initialPieces : Piece[] = [
 ]
 
 export default function () {
-    const [pieces, _] = useState<Piece[]>(initialPieces);
+    const [pieces, setPieces] = useState<Piece[]>(initialPieces)
     const [selectedPiece, setSelectedPiece] = useState<Piece | null>(null)
     const [turn, setTurn] = useState<"black" | "white">("white")
 
     return <>
-        <Table selectedPiece={selectedPiece} pieces={pieces} setSelectedPiece={setSelectedPiece} turn={turn} setTurn={setTurn} />
+        <Table selectedPiece={selectedPiece} setPieces={setPieces} pieces={pieces} setSelectedPiece={setSelectedPiece} turn={turn} setTurn={setTurn} />
         <Pieces pieces={pieces} selectedPieceSetter={setSelectedPiece} turn={turn} />
     </>
 }

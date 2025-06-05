@@ -3,7 +3,7 @@ import { caseSize } from "../constants"
 import type { Piece, Position } from "../types"
 import { getSuggestion, range } from "../utils"
 
-export default function (props: { selectedPiece: Piece | null, pieces: Piece[], setSelectedPiece: Function, setTurn: Function, turn: string }) {
+export default function (props: { selectedPiece: Piece | null, pieces: Piece[], setPieces: Function, setSelectedPiece: Function, setTurn: Function, turn: string }) {
     const [suggestions, setSuggestions] = useState<Position[]>([])
 
     useEffect(function () {
@@ -33,12 +33,25 @@ export default function (props: { selectedPiece: Piece | null, pieces: Piece[], 
                                 })
 
                                 if (killablePieces) {
-                                    killablePieces.position.x = caseSize*100
-                                    killablePieces.position.y = caseSize*100
+                                    props.setPieces(props.pieces.filter(p => p != killablePieces))
                                 }
 
                                 props.selectedPiece.position.x = x
                                 props.selectedPiece.position.y = y
+
+                                if (
+                                    props.selectedPiece.type == "pawn" &&
+                                    ((props.selectedPiece.color == "white" && y == 3) ||
+                                    (props.selectedPiece.color == "black" && y == -4))
+                                ) {
+                                    const newType = prompt("Promotion du pion ! Choisissez : queen, rook, bishop ou knight", "queen");
+                                    if (newType == "queen" || newType == "rook" || newType == "bishop" || newType == "knight") {
+                                        props.selectedPiece.type = newType
+                                    } else {
+                                        alert("Type invalide. Le pion est promu en dame par défaut.")
+                                        props.selectedPiece.type = "queen"
+                                    }
+                                }
 
                                 props.setTurn(props.turn == "white" ? "black": "white")
 
@@ -48,7 +61,7 @@ export default function (props: { selectedPiece: Piece | null, pieces: Piece[], 
 
                         }}>
                             <boxGeometry args={[caseSize, caseSize/3, caseSize]} />
-                            {suggestions?.find(s => s.x == x && s.y == y) ? 
+                            {suggestions?.find(s => s.x == x && s.y == y) || (props.selectedPiece?.position.x == x && props.selectedPiece?.position.y == y) ? 
                                 <meshLambertMaterial color={0x00ff00} /> :
                                 <meshLambertMaterial color={((x%2)+(y%2))%2 == 0 ? 0x00000 : 0xffffff} />
                             }

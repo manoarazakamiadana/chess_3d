@@ -22,26 +22,29 @@ function PieceComponents(props: { piece: Piece, selectedPieceSetter: Function, t
 
     useEffect(() => {
         clonedScene.traverse((child) => {
-        if ((child as Mesh).isMesh) {
-            const mesh = child as Mesh
-            const material = mesh.material as MeshStandardMaterial
-            if (material && material.color) {
-                material.color.set(props.piece.color == 'white' ? 0xbbbbbb : 0x444444)
+            if ((child as Mesh).isMesh) {
+                const mesh = child as Mesh
+                const material = mesh.material as MeshStandardMaterial
+                if (material && material.color) {
+                    material.color.set(props.piece.color == 'white' ? 0xbbbbbb : 0x444444)
+                }
+                mesh.material = material.clone()
             }
-            mesh.material = material.clone()
-        }
         })
     }, [clonedScene])
 
-    return <primitive
-        object={clonedScene}
-        position={[props.piece.color == "black" ? (props.piece.position.x*caseSize)-caseSize/4 : (props.piece.position.x*caseSize)+caseSize/4, 0, props.piece.position.y*caseSize]}
-        scale={[caseSize*40, caseSize*40, caseSize*40]}
-        rotation={props.piece.color == "black" ? [0, 0, 0] : [0, Math.PI, 0]}
-        onClick={function () {
+    return (
+        <group onClick={function () {
             if (props.turn == props.piece.color) {
                 props.selectedPieceSetter(props.piece)
-            }   
-        }}
-    />
+            }
+        }}>
+            <primitive
+                object={clonedScene}
+                position={[props.piece.color == "black" ? (props.piece.position.x*caseSize)-caseSize/4 : (props.piece.position.x*caseSize)+caseSize/4, 0, props.piece.position.y*caseSize]}
+                scale={[caseSize*40, caseSize*40, caseSize*40]}
+                rotation={props.piece.color == "black" ? [0, 0, 0] : [0, Math.PI, 0]}
+            />
+        </group>
+    )
 }

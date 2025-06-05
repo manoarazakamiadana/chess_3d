@@ -6,7 +6,7 @@ import { caseSize } from "./constants";
 export default function () {
     return (
         <Canvas
-            camera={{ position: [0, caseSize*5, -caseSize*10] }}
+            camera={{ position: [caseSize*5, caseSize*5, -caseSize*5] }}
             style={{ width: "100vw", height: "100vh" }}
             shadows
         >
